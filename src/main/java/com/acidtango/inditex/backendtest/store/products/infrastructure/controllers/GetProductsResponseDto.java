@@ -1,4 +1,6 @@
 package com.acidtango.inditex.backendtest.store.products.infrastructure.controllers;
 
-public record GetProductsResponseDto(Integer id, String name, Integer salesUnits, VariantResponseDto stock) {
+import java.util.List;
+
+public record GetProductsResponseDto(List<GetProductsElementDto> items) {
 }

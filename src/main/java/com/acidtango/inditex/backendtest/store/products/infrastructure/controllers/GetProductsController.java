@@ -19,16 +19,16 @@ public class GetProductsController {
     }
 
     @GetMapping
-    List<GetProductsResponseDto> index() {
+    GetProductsResponseDto index() {
         var result = listProducts.execute();
 
         return toResponseDto(result);
     }
 
-    private static List<GetProductsResponseDto> toResponseDto(List<ProductWithStock> result) {
-        return result
+    private static GetProductsResponseDto toResponseDto(List<ProductWithStock> result) {
+        var items = result
             .stream()
-            .map(productWithStock -> new GetProductsResponseDto(
+            .map(productWithStock -> new GetProductsElementDto(
                 productWithStock.id().getId(),
                 productWithStock.name(),
                 productWithStock.salesUnits(),
@@ -37,7 +37,8 @@ public class GetProductsController {
                     productWithStock.variantStock().medium(),
                     productWithStock.variantStock().small()
                 )
-            ))
-            .collect(Collectors.toList());
+            )).toList();
+
+        return new GetProductsResponseDto(items);
     }
 }
