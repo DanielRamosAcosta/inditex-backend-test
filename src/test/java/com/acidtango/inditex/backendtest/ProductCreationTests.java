@@ -1,26 +1,20 @@
 package com.acidtango.inditex.backendtest;
 
-import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsElementDto;
 import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsResponseDto;
-import com.jayway.jsonpath.TypeRef;
 import io.restassured.module.mockmvc.RestAssuredMockMvc;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
-
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.when;
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -69,6 +63,18 @@ public class ProductCreationTests {
                 .get("/products")
                 .getBody()
                 .asString();
+
+        System.out.println(data);
+    }
+
+    @Test
+    void rest_assured_works_with_casting() throws Exception {
+        GetProductsResponseDto data = given()
+                .port(port)
+                .when()
+                .get("/products")
+                .getBody()
+                .as(GetProductsResponseDto.class);
 
         System.out.println(data);
     }
