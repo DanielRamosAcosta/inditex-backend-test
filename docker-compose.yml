@@ -1,0 +1,11 @@
+# This docker compose is for local development purposes
+
+version: "3.7"
+services:
+  api:
+    build: .
+    platform: linux/amd64
+    ports:
+      - "8080:8080"
+  # database:
+  #   image: "redis:alpine"
