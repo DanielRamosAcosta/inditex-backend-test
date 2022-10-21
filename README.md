@@ -169,7 +169,7 @@ El proyecto está dockerizado con una imagen multistage, para evitar el código 
 
 # Levantar el servidor
 
-Una opción, es usar Docker:
+Una opción es usar Docker:
 
 ```
 docker compose up
