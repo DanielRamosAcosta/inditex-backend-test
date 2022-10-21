@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -31,19 +32,58 @@ public class ProductListingTests {
     @LocalServerPort
     private int port;
 
+    String product1Name = "V-NECH BASIC SHIRT";
+    String product2Name = "CONTRASTING FABRIC T-SHIRT";
+    String product3Name = "RAISED PRINT T-SHIRT";
+    String product4Name = "PLEATED T-SHIRT";
+    String product5Name = "CONTRASTING LACE T-SHIRT";
+    String product6Name = "SLOGAN T-SHIRT";
+
     @Test
-    void lists_the_products_with_the_given_order_criteria() throws Exception {
+    void lists_the_products_with_the_given_order_criteria_having_sales_units_preference() throws Exception {
         replicateExerciseStatementSetup();
+
+        var products = given()
+                .port(port)
+                .queryParam("salesUnitsEpsilon", 1)
+                .queryParam("stockEpsilon", 0)
+                .get("/products")
+                .getBody()
+                .as(GetProductsResponseDto.class)
+                .items();
+
+        assertThat(products).hasSize(6);
+        assertThat(products.get(0).name()).isEqualTo(product5Name); // 650
+        assertThat(products.get(1).name()).isEqualTo(product1Name); // 100
+        assertThat(products.get(2).name()).isEqualTo(product3Name); // 80
+        assertThat(products.get(3).name()).isEqualTo(product2Name); // 50
+        assertThat(products.get(4).name()).isEqualTo(product6Name); // 20
+        assertThat(products.get(5).name()).isEqualTo(product4Name); // 3
+    }
+
+    @Test
+    void lists_the_products_with_the_given_order_criteria_having_stock_preference() throws Exception {
+        replicateExerciseStatementSetup();
+
+        var products = given()
+                .port(port)
+                .queryParam("salesUnitsEpsilon", 0)
+                .queryParam("stockEpsilon", 1)
+                .get("/products")
+                .getBody()
+                .as(GetProductsResponseDto.class)
+                .items();
+
+        assertThat(products).hasSize(6);
+        assertThat(products.get(0).name()).isEqualTo(product4Name); // 25 + 30 + 10 = 65
+        assertThat(products.get(1).name()).isEqualTo(product2Name); // 35 + 9  + 9  = 53
+        assertThat(products.get(2).name()).isEqualTo(product3Name); // 20 + 2  + 20 = 42
+        assertThat(products.get(3).name()).isEqualTo(product6Name); // 9  + 2  + 5  = 16
+        assertThat(products.get(4).name()).isEqualTo(product1Name); // 4  + 9  + 0  = 13
+        assertThat(products.get(5).name()).isEqualTo(product5Name); // 0  + 1  + 0  = 1
     }
 
     private void replicateExerciseStatementSetup() {
-        var product1Name = "V-NECH BASIC SHIRT";
-        var product2Name = "CONTRASTING FABRIC T-SHIRT";
-        var product3Name = "RAISED PRINT T-SHIRT";
-        var product4Name = "PLEATED T-SHIRT";
-        var product5Name = "CONTRASTING LACE T-SHIRT";
-        var product6Name = "SLOGAN T-SHIRT";
-
         var productId1 = createProduct(product1Name);
         var productId2 = createProduct(product2Name);
         var productId3 = createProduct(product3Name);
@@ -53,6 +93,7 @@ public class ProductListingTests {
 
         var products = given()
                 .port(port)
+                .log().all()
                 .get("/products")
                 .getBody()
                 .as(GetProductsResponseDto.class)

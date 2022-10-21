@@ -2,6 +2,8 @@ package com.acidtango.inditex.backendtest.store.products.infrastructure.controll
 
 import com.acidtango.inditex.backendtest.store.products.application.ListProducts;
 import com.acidtango.inditex.backendtest.store.products.domain.readmodel.ProductWithStock;
+import com.acidtango.inditex.backendtest.store.products.domain.readmodel.criteria.ListProductStockOrderCriteria;
+import com.acidtango.inditex.backendtest.store.products.domain.readmodel.criteria.OrderWeight;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +20,13 @@ public class GetProductsController {
     }
 
     @GetMapping
-    GetProductsResponseDto index() {
-        var result = listProducts.execute();
+    GetProductsResponseDto index(GetProductsRequestDto getProductsRequestDto) {
+        var orderCriteria = new ListProductStockOrderCriteria(
+            getProductsRequestDto.salesUnitsEpsilon().map(OrderWeight::new).orElse(OrderWeight.unit()),
+            getProductsRequestDto.stockEpsilon().map(OrderWeight::new).orElse(OrderWeight.unit())
+        );
+
+        var result = listProducts.execute(orderCriteria);
 
         return toResponseDto(result);
     }

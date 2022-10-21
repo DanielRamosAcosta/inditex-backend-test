@@ -8,6 +8,7 @@ import com.acidtango.inditex.backendtest.store.products.domain.readmodel.Product
 import com.acidtango.inditex.backendtest.store.products.domain.readmodel.ProductWithStock;
 import com.acidtango.inditex.backendtest.store.products.domain.readmodel.VariantStock;
 import com.acidtango.inditex.backendtest.store.products.domain.readmodel.VariantsStock;
+import com.acidtango.inditex.backendtest.store.products.domain.readmodel.criteria.ListProductStockOrderCriteria;
 import com.acidtango.inditex.backendtest.store.shared.domain.ProductId;
 import com.acidtango.inditex.backendtest.store.shared.domain.VariantId;
 import com.acidtango.inditex.backendtest.store.stock.domain.ProductVariantStock;
@@ -30,7 +31,7 @@ public class ProductReadModelRepositoryMemory implements ProductReadModelReposit
     }
 
     @Override
-    public List<ProductWithStock> find() {
+    public List<ProductWithStock> find(ListProductStockOrderCriteria orderCriteria) {
         return productRepositoryMemory.products
             .values()
             .stream()
@@ -44,6 +45,7 @@ public class ProductReadModelRepositoryMemory implements ProductReadModelReposit
                         stockForVariantWithSize(product, ProductSize.SMALL)
                     )
             ))
+            .sorted((p1, p2) -> orderCriteria.getWeight(p2).compareTo(orderCriteria.getWeight(p1)))
             .collect(Collectors.toList());
     }
 
