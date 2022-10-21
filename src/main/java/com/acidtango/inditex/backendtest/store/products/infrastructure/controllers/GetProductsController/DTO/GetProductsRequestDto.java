@@ -1,4 +1,4 @@
-package com.acidtango.inditex.backendtest.store.products.infrastructure.controllers;
+package com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsController.DTO;
 
 import java.util.Optional;
 

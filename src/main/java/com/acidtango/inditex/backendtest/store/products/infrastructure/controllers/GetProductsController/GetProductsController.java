@@ -1,9 +1,10 @@
-package com.acidtango.inditex.backendtest.store.products.infrastructure.controllers;
+package com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsController;
 
 import com.acidtango.inditex.backendtest.store.products.application.ListProducts;
 import com.acidtango.inditex.backendtest.store.products.domain.readmodel.ProductWithStock;
 import com.acidtango.inditex.backendtest.store.products.domain.readmodel.criteria.ListProductStockOrderCriteria;
 import com.acidtango.inditex.backendtest.store.products.domain.readmodel.criteria.OrderWeight;
+import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsController.DTO.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

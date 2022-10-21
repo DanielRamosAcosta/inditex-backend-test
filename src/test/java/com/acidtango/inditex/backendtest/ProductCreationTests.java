@@ -1,7 +1,7 @@
 package com.acidtango.inditex.backendtest;
 
-import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.CreateProductRequestDto;
-import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsResponseDto;
+import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsController.DTO.GetProductsResponseDto;
+import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.PostProductController.DTO.PostProductRequestDto;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ProductCreationTests {
     @Autowired
     private MockMvc mockMvc;
@@ -31,7 +31,7 @@ public class ProductCreationTests {
 
         given()
                 .port(port)
-                .body(new CreateProductRequestDto(expectedProductName))
+                .body(new PostProductRequestDto(expectedProductName))
                 .contentType(ContentType.JSON)
                 .post("/products")
                 .then()

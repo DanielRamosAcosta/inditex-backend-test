@@ -1,9 +1,10 @@
-package com.acidtango.inditex.backendtest.store.stock.infrastructure.controllers;
+package com.acidtango.inditex.backendtest.store.stock.infrastructure.controllers.PostStockController;
 
 import com.acidtango.inditex.backendtest.store.shared.domain.ProductId;
 import com.acidtango.inditex.backendtest.store.shared.domain.VariantId;
 import com.acidtango.inditex.backendtest.store.stock.application.Restock;
 import com.acidtango.inditex.backendtest.store.stock.domain.StockAmount;
+import com.acidtango.inditex.backendtest.store.stock.infrastructure.controllers.PostStockController.DTO.PostStockRequestDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

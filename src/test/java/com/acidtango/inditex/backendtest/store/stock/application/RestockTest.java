@@ -28,7 +28,7 @@ class RestockTest {
         restock.execute(aProductId, aVariantId, amount);
 
         var element = productVariantStockRepository.productVariantStock.get(aProductId.getId());
-        assertThat(element.stockAmount()).isEqualTo(100);
+        assertThat(element.stockAmount()).isEqualTo(101);
     }
 
     @Test

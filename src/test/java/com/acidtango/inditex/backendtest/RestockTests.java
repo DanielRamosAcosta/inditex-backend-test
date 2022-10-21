@@ -1,8 +1,8 @@
 package com.acidtango.inditex.backendtest;
 
-import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.CreateProductRequestDto;
-import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsResponseDto;
-import com.acidtango.inditex.backendtest.store.stock.infrastructure.controllers.PostStockRequestDto;
+import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsController.DTO.GetProductsResponseDto;
+import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.PostProductController.DTO.PostProductRequestDto;
+import com.acidtango.inditex.backendtest.store.stock.infrastructure.controllers.PostStockController.DTO.PostStockRequestDto;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class RestockTests {
     @Autowired
     private MockMvc mockMvc;
@@ -32,7 +32,7 @@ public class RestockTests {
         var expectedAmountToRestock = 2;
         given()
                 .port(port)
-                .body(new CreateProductRequestDto(notImportantProductName))
+                .body(new PostProductRequestDto(notImportantProductName))
                 .contentType(ContentType.JSON)
                 .post("/products")
                 .then()

@@ -1,8 +1,10 @@
-package com.acidtango.inditex.backendtest.store.orders.infrastructure.controllers;
+package com.acidtango.inditex.backendtest.store.orders.infrastructure.controllers.PostOrderController;
 
 import com.acidtango.inditex.backendtest.store.orders.application.CreateOrder;
 import com.acidtango.inditex.backendtest.store.orders.domain.OrderLines;
 import com.acidtango.inditex.backendtest.store.orders.domain.primitives.OrderLinePrimitives;
+import com.acidtango.inditex.backendtest.store.orders.infrastructure.controllers.PostOrderController.DTO.CreateOrderRequestDto;
+import com.acidtango.inditex.backendtest.store.orders.infrastructure.controllers.PostOrderController.DTO.CreateOrderResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 

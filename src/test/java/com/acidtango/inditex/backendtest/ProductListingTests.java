@@ -1,12 +1,12 @@
 package com.acidtango.inditex.backendtest;
 
-import com.acidtango.inditex.backendtest.store.orders.infrastructure.controllers.CreateOrderRequestDto;
-import com.acidtango.inditex.backendtest.store.orders.infrastructure.controllers.OrderLinesDto;
-import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.CreateProductRequestDto;
-import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.CreateProductResponseDto;
-import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsElementDto;
-import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsResponseDto;
-import com.acidtango.inditex.backendtest.store.stock.infrastructure.controllers.PostStockRequestDto;
+import com.acidtango.inditex.backendtest.store.orders.infrastructure.controllers.PostOrderController.DTO.CreateOrderRequestDto;
+import com.acidtango.inditex.backendtest.store.orders.infrastructure.controllers.PostOrderController.DTO.OrderLinesDto;
+import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsController.DTO.GetProductsElementDto;
+import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsController.DTO.GetProductsResponseDto;
+import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.PostProductController.DTO.PostProductRequestDto;
+import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.PostProductController.DTO.PostProductResponseDto;
+import com.acidtango.inditex.backendtest.store.stock.infrastructure.controllers.PostStockController.DTO.PostStockRequestDto;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class ProductListingTests {
     @Autowired
     private MockMvc mockMvc;
@@ -144,13 +144,13 @@ public class ProductListingTests {
     private Integer createProduct(String name) {
         return given()
                 .port(port)
-                .body(new CreateProductRequestDto(name))
+                .body(new PostProductRequestDto(name))
                 .contentType(ContentType.JSON)
                 .post("/products")
                 .then()
                 .statusCode(HttpStatus.CREATED.value())
                 .extract()
-                .as(CreateProductResponseDto.class)
+                .as(PostProductResponseDto.class)
                 .id();
     }
 }
