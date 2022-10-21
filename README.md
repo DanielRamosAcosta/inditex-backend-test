@@ -157,6 +157,8 @@ No existe una implementación completa de los repositorios con Hibernate, sólo 
 
 Tampoco se ha tenido en cuenta todos los casos límites en los que se podría fallar (longitud de strings, saneamiento, control de excepciones, etc...)
 
+No se han implementado medidas para controlar los fallos en los eventos, como acciones compensatorias o patrones como Failover.
+
 # Integración Continua
 
 El proyecto tiene integración continua con Github Actions. Se construye la API y se lanzan los tests.
