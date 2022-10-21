@@ -1,9 +1,9 @@
 package com.acidtango.inditex.backendtest;
 
-import com.acidtango.inditex.backendtest.store.orders.infrastructure.controllers.CreateOrderRequestDto;
-import com.acidtango.inditex.backendtest.store.orders.infrastructure.controllers.OrderLinesDto;
+import com.acidtango.inditex.backendtest.store.products.domain.ProductSize;
 import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.CreateProductRequestDto;
 import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsResponseDto;
+import com.acidtango.inditex.backendtest.store.stock.infrastructure.controllers.PostStockRequestDto;
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +14,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
-
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @DirtiesContext
-public class OrderCreationTests {
+public class RestockTests {
     @Autowired
     private MockMvc mockMvc;
 
@@ -30,32 +28,40 @@ public class OrderCreationTests {
     private int port;
 
     @Test
-    void creates_an_order_over_a_product() throws Exception {
-
+    void creates_a_product() throws Exception {
+        var notImportantProductName = "V-NECH BASIC SHIRT";
         given()
                 .port(port)
-                .body(new CreateProductRequestDto("V-NECH BASIC SHIRT"))
+                .body(new CreateProductRequestDto(notImportantProductName))
                 .contentType(ContentType.JSON)
                 .post("/products")
                 .then()
                 .statusCode(HttpStatus.CREATED.value());
 
-        given()
-                .port(port)
-                .body(new CreateOrderRequestDto(List.of(new OrderLinesDto(1, 1, 2))))
-                .contentType(ContentType.JSON)
-                .post("/orders")
-                .then()
-                .statusCode(HttpStatus.CREATED.value());
-
-        var response = given()
+        var product = given()
                 .port(port)
                 .get("/products")
                 .getBody()
-                .as(GetProductsResponseDto.class);
+                .as(GetProductsResponseDto.class)
+                .items()
+                .get(0);
 
-        assertThat(response.items()).hasSize(1);
-        assertThat(response.items().get(0).name()).isEqualTo("V-NECH BASIC SHIRT");
-        assertThat(response.items().get(0).salesUnits()).isEqualTo(2);
+        given()
+                .port(port)
+                .body(new PostStockRequestDto(ProductSize.LARGE, 1))
+                .contentType(ContentType.JSON)
+                .post("/products/" + product.id() + "/stock")
+                .then()
+                .statusCode(HttpStatus.CREATED.value());
+
+        var products = given()
+                .port(port)
+                .get("/products")
+                .getBody()
+                .as(GetProductsResponseDto.class)
+                .items();
+
+        assertThat(products).hasSize(1);
+        assertThat(products.get(0).stock().large()).isEqualTo(2);
     }
 }

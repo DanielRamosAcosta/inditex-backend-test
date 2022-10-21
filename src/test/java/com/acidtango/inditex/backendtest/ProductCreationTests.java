@@ -1,22 +1,19 @@
 package com.acidtango.inditex.backendtest;
 
+import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.CreateProductRequestDto;
 import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsResponseDto;
-import io.restassured.module.mockmvc.RestAssuredMockMvc;
+import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -30,52 +27,24 @@ public class ProductCreationTests {
 
     @Test
     void creates_a_product() throws Exception {
-        RestAssuredMockMvc.mockMvc(mockMvc);
-        var productName = "V-NECH BASIC SHIRT";
+        var expectedProductName = "V-NECH BASIC SHIRT";
 
-        mockMvc.perform(post("/products")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                    "name": "V-NECH BASIC SHIRT"
-                                }
-                        """)
-                )
-                .andDo(print())
-                .andExpect(status().isCreated());
-
-        mockMvc.perform(get("/products"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.items", hasSize(1)))
-                .andExpect(jsonPath("$.items.[0].name").value(productName))
-                .andExpect(jsonPath("$.items.[0].stock.large").value(0))
-                .andExpect(jsonPath("$.items.[0].stock.medium").value(0))
-                .andExpect(jsonPath("$.items.[0].stock.small").value(0));
-    }
-
-    @Test
-    void rest_assured_works_with_strings() throws Exception {
-        var data = given()
+        given()
                 .port(port)
-                .when()
+                .body(new CreateProductRequestDto(expectedProductName))
+                .contentType(ContentType.JSON)
+                .post("/products")
+                .then()
+                .statusCode(HttpStatus.CREATED.value());
+
+        var products = given()
+                .port(port)
                 .get("/products")
                 .getBody()
-                .asString();
+                .as(GetProductsResponseDto.class)
+                .items();
 
-        System.out.println(data);
-    }
-
-    @Test
-    void rest_assured_works_with_casting() throws Exception {
-        GetProductsResponseDto data = given()
-                .port(port)
-                .when()
-                .get("/products")
-                .getBody()
-                .as(GetProductsResponseDto.class);
-
-        System.out.println(data);
+        assertThat(products).hasSize(1);
+        assertThat(products.get(0).name()).isEqualTo(expectedProductName);
     }
 }
