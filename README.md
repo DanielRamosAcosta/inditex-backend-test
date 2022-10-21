@@ -1,5 +1,8 @@
 # Inditex Caso Práctico
 
+![CI](https://github.com/DanielRamosAcosta/inditex-backend-test/actions/workflows/main.yml/badge.svg)
+![Java version](https://img.shields.io/badge/JDK-17%20preview-blue)
+
 ## Índice
 
 - [Inditex Caso Práctico](#inditex-caso-pr-ctico)
