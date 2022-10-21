@@ -7,16 +7,14 @@ import com.acidtango.inditex.backendtest.store.products.domain.primitives.Produc
 import com.acidtango.inditex.backendtest.store.products.domain.readmodel.ProductReadModelRepository;
 import com.acidtango.inditex.backendtest.store.products.domain.readmodel.ProductWithStock;
 import com.acidtango.inditex.backendtest.store.products.domain.readmodel.VariantStock;
+import com.acidtango.inditex.backendtest.store.products.domain.readmodel.VariantsStock;
 import com.acidtango.inditex.backendtest.store.shared.domain.ProductId;
-import com.acidtango.inditex.backendtest.store.shared.domain.ProductVariantStockId;
 import com.acidtango.inditex.backendtest.store.shared.domain.VariantId;
 import com.acidtango.inditex.backendtest.store.stock.domain.ProductVariantStock;
 import com.acidtango.inditex.backendtest.store.stock.domain.ProductVariantStockRepository;
-import com.acidtango.inditex.backendtest.store.stock.domain.primitives.ProductVariantStockPrimitives;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
@@ -40,7 +38,7 @@ public class ProductReadModelRepositoryMemory implements ProductReadModelReposit
                     new ProductId(product.id()),
                     product.name(),
                     getSalesUnitsOf(product.id()),
-                    new VariantStock(
+                    new VariantsStock(
                         stockForVariantWithSize(product, ProductSize.LARGE),
                         stockForVariantWithSize(product, ProductSize.MEDIUM),
                         stockForVariantWithSize(product, ProductSize.SMALL)
@@ -49,7 +47,7 @@ public class ProductReadModelRepositoryMemory implements ProductReadModelReposit
             .collect(Collectors.toList());
     }
 
-    private Integer stockForVariantWithSize(ProductPrimitives product, ProductSize size) {
+    private VariantStock stockForVariantWithSize(ProductPrimitives product, ProductSize size) {
         return product
                 .variants()
                 .stream()
@@ -57,8 +55,8 @@ public class ProductReadModelRepositoryMemory implements ProductReadModelReposit
                 .findFirst()
                 .flatMap(variant -> productVariantStockRepository.findByVariantId(new VariantId(variant.id())))
                 .map(ProductVariantStock::toPrimitives)
-                .map(ProductVariantStockPrimitives::stockAmount)
-                .orElse(0);
+                .map(variant -> new VariantStock(variant.variantId(), variant.stockAmount()))
+                .orElse(new VariantStock(0, 0));
     }
 
     private int getSalesUnitsOf(Integer id) {

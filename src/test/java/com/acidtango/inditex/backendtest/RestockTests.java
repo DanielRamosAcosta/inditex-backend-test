@@ -1,6 +1,5 @@
 package com.acidtango.inditex.backendtest;
 
-import com.acidtango.inditex.backendtest.store.products.domain.ProductSize;
 import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.CreateProductRequestDto;
 import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsResponseDto;
 import com.acidtango.inditex.backendtest.store.stock.infrastructure.controllers.PostStockRequestDto;
@@ -30,6 +29,7 @@ public class RestockTests {
     @Test
     void creates_a_product() throws Exception {
         var notImportantProductName = "V-NECH BASIC SHIRT";
+        var expectedAmountToRestock = 2;
         given()
                 .port(port)
                 .body(new CreateProductRequestDto(notImportantProductName))
@@ -48,9 +48,9 @@ public class RestockTests {
 
         given()
                 .port(port)
-                .body(new PostStockRequestDto(ProductSize.LARGE, 1))
+                .body(new PostStockRequestDto(expectedAmountToRestock))
                 .contentType(ContentType.JSON)
-                .post("/products/" + product.id() + "/stock")
+                .post("/products/" + product.id() + "/variants/" + product.stock().large().id() + "/stock")
                 .then()
                 .statusCode(HttpStatus.CREATED.value());
 
@@ -62,6 +62,6 @@ public class RestockTests {
                 .items();
 
         assertThat(products).hasSize(1);
-        assertThat(products.get(0).stock().large()).isEqualTo(2);
+        assertThat(products.get(0).stock().large().amount()).isEqualTo(expectedAmountToRestock);
     }
 }

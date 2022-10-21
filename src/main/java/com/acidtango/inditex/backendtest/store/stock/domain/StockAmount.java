@@ -20,4 +20,8 @@ public class StockAmount extends ValueObject {
     public Integer toPrimitives() {
         return amount;
     }
+
+    public StockAmount add(StockAmount other) {
+        return new StockAmount(this.amount + other.amount);
+    }
 }

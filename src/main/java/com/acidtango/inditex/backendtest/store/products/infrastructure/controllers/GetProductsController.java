@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/products")
@@ -32,10 +31,10 @@ public class GetProductsController {
                 productWithStock.id().getId(),
                 productWithStock.name(),
                 productWithStock.salesUnits(),
-                new VariantResponseDto(
-                    productWithStock.variantStock().large(),
-                    productWithStock.variantStock().medium(),
-                    productWithStock.variantStock().small()
+                new VariantsStockResponseDto(
+                    new VariantStockDto(productWithStock.variantsStock().large().id(), productWithStock.variantsStock().large().amount()),
+                    new VariantStockDto(productWithStock.variantsStock().medium().id(), productWithStock.variantsStock().medium().amount()),
+                    new VariantStockDto(productWithStock.variantsStock().small().id(), productWithStock.variantsStock().small().amount())
                 )
             )).toList();
 

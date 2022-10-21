@@ -20,7 +20,7 @@ public class EventBusTracker implements EventBus {
 
     public String lastEventName() {
         if (events.isEmpty()) {
-            return "no events recorded";
+            throw new AssertionError("no events recorded at the event bus");
         }
 
         return events.get(events.size() - 1).fullQualifiedEventName();
