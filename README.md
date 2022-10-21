@@ -16,3 +16,4 @@
 * Outside in TDD
 * E2E test from API point of view
 * es overkill, comentarlo
+* no se han tenido en cuenta demasiadas validaciones

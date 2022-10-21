@@ -5,6 +5,7 @@ import com.acidtango.inditex.backendtest.store.orders.domain.OrderLines;
 import com.acidtango.inditex.backendtest.store.orders.domain.primitives.OrderLinePrimitives;
 import com.acidtango.inditex.backendtest.store.orders.infrastructure.controllers.PostOrderController.DTO.CreateOrderRequestDto;
 import com.acidtango.inditex.backendtest.store.orders.infrastructure.controllers.PostOrderController.DTO.CreateOrderResponseDto;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ public class PostOrderController  {
         this.createOrder = createOrder;
     }
 
+    @Operation(description = "Places an order that will be sent to the customer")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     CreateOrderResponseDto create(@RequestBody CreateOrderRequestDto createOrderRequestDto) {

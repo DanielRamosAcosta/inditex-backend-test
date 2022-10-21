@@ -5,6 +5,8 @@ import com.acidtango.inditex.backendtest.store.products.domain.readmodel.Product
 import com.acidtango.inditex.backendtest.store.products.domain.readmodel.criteria.ListProductStockOrderCriteria;
 import com.acidtango.inditex.backendtest.store.products.domain.readmodel.criteria.OrderWeight;
 import com.acidtango.inditex.backendtest.store.products.infrastructure.controllers.GetProductsController.DTO.*;
+import io.swagger.v3.oas.annotations.Operation;
+import org.springdoc.api.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,8 +22,9 @@ public class GetProductsController {
         this.listProducts = listProducts;
     }
 
+    @Operation(summary = "Lists the products along with the stock for each variant")
     @GetMapping
-    GetProductsResponseDto index(GetProductsRequestDto getProductsRequestDto) {
+    GetProductsResponseDto index(@ParameterObject GetProductsRequestDto getProductsRequestDto) {
         var orderCriteria = new ListProductStockOrderCriteria(
             getProductsRequestDto.salesUnitsEpsilon().map(OrderWeight::new).orElse(OrderWeight.unit()),
             getProductsRequestDto.stockEpsilon().map(OrderWeight::new).orElse(OrderWeight.unit())
