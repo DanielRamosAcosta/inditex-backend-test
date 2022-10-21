@@ -23,4 +23,12 @@ public class OrderLine extends ValueObject {
     public OrderLinePrimitives toPrimitives() {
         return new OrderLinePrimitives(productId.getId(), variantId.getId(), amount);
     }
+
+    public VariantId getVariantId() {
+        return variantId;
+    }
+
+    public Integer getAmount() {
+        return amount;
+    }
 }

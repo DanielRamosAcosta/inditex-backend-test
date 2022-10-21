@@ -14,7 +14,7 @@ import java.util.Optional;
 public class ProductVariantStockRepositoryMemory implements ProductVariantStockRepository {
     public HashMap<Integer, ProductVariantStockPrimitives> productVariantStock = new HashMap<>();
 
-    public static ProductVariantStockPrimitives vNechBasicShirt = new ProductVariantStockPrimitives(1, 1, 1, 0);
+    public static ProductVariantStockPrimitives vNechBasicShirt = new ProductVariantStockPrimitives(1, 1, 1, 1);
 
     public static ProductVariantStockRepositoryMemory withSomeProducts() {
         var repository = new ProductVariantStockRepositoryMemory();

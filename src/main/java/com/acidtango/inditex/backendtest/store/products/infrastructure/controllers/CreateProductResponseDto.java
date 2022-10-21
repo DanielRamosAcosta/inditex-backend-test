@@ -1,4 +1,4 @@
 package com.acidtango.inditex.backendtest.store.products.infrastructure.controllers;
 
-public record CreateProductResponseDto(String id) {
+public record CreateProductResponseDto(Integer id) {
 }

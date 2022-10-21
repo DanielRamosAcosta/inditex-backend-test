@@ -32,4 +32,12 @@ public class StockAmount extends ValueObject {
     public StockAmount add(StockAmount other) {
         return new StockAmount(this.amount + other.amount);
     }
+
+    public boolean isLessThan(Integer amount) {
+        return this.amount < amount;
+    }
+
+    public StockAmount subtract(Integer amount) {
+        return new StockAmount(this.amount - amount);
+    }
 }

@@ -5,7 +5,6 @@ import com.acidtango.inditex.backendtest.shared.domain.EventBus;
 import com.acidtango.inditex.backendtest.store.products.domain.Product;
 import com.acidtango.inditex.backendtest.store.products.domain.ProductRepository;
 import com.acidtango.inditex.backendtest.store.shared.domain.ProductId;
-import com.acidtango.inditex.backendtest.store.shared.domain.VariantId;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,12 +18,13 @@ public class CreateProduct extends UseCase {
     }
 
     public ProductId execute(String name) {
+        ProductId productId = productRepository.getNextId();
         var firstId = productRepository.getNextVariantId();
         var secondId = firstId.nextId();
         var thirdId = secondId.nextId();
 
         Product product = Product.create(
-            productRepository.getNextId(),
+            productId,
             name,
             firstId,
             secondId,
@@ -35,6 +35,6 @@ public class CreateProduct extends UseCase {
 
         eventBus.publish(product.pullDomainEvents());
 
-        return productRepository.getNextId();
+        return productId;
     }
 }

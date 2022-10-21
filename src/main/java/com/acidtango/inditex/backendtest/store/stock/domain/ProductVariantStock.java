@@ -1,6 +1,7 @@
 package com.acidtango.inditex.backendtest.store.stock.domain;
 
 import com.acidtango.inditex.backendtest.shared.domain.AggregateRoot;
+import com.acidtango.inditex.backendtest.store.orders.domain.exceptions.NotEnoughStock;
 import com.acidtango.inditex.backendtest.store.shared.domain.ProductId;
 import com.acidtango.inditex.backendtest.store.shared.domain.ProductVariantStockId;
 import com.acidtango.inditex.backendtest.store.shared.domain.VariantId;
@@ -41,5 +42,15 @@ public class ProductVariantStock extends AggregateRoot {
         this.stockAmount = this.stockAmount.add(amount);
 
         this.record(new Restocked(id));
+    }
+
+    public void ensureThereIsEnough(Integer amount) {
+        if (stockAmount.isLessThan(amount)) {
+            throw new NotEnoughStock();
+        }
+    }
+
+    public void decrementIn(Integer amount) {
+        this.stockAmount = stockAmount.subtract(amount);
     }
 }

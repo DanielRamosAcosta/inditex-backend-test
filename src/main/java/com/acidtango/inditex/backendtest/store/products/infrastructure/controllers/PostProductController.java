@@ -18,6 +18,6 @@ public class PostProductController {
     CreateProductResponseDto create(@RequestBody CreateProductRequestDto createProductRequestDto) {
         var productId = createProduct.execute(createProductRequestDto.name());
 
-        return new CreateProductResponseDto(productId.getId().toString());
+        return new CreateProductResponseDto(productId.getId());
     }
 }

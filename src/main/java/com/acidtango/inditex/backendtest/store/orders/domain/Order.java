@@ -33,4 +33,8 @@ public final class Order extends AggregateRoot {
     public OrderPrimitives toPrimitives() {
         return new OrderPrimitives(orderId.getId(), orderLines.toPrimitives());
     }
+
+    public OrderLines lines() {
+        return orderLines;
+    }
 }
