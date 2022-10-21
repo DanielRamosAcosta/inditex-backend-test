@@ -13,12 +13,12 @@ import com.acidtango.inditex.backendtest.store.shared.domain.ProductId;
 import com.acidtango.inditex.backendtest.store.shared.domain.VariantId;
 import com.acidtango.inditex.backendtest.store.stock.domain.ProductVariantStock;
 import com.acidtango.inditex.backendtest.store.stock.domain.ProductVariantStockRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Repository
+@Component
 public class ProductReadModelRepositoryMemory implements ProductReadModelRepository {
     private final ProductRepositoryMemory productRepositoryMemory;
     private final OrderRepositoryMemory orderRepositoryMemory;

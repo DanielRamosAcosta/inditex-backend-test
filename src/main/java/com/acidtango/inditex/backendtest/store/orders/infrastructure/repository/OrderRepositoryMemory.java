@@ -5,13 +5,13 @@ import com.acidtango.inditex.backendtest.store.orders.domain.OrderRepository;
 import com.acidtango.inditex.backendtest.store.orders.domain.primitives.OrderLinePrimitives;
 import com.acidtango.inditex.backendtest.store.orders.domain.primitives.OrderPrimitives;
 import com.acidtango.inditex.backendtest.store.shared.domain.OrderId;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@Component
 public class OrderRepositoryMemory implements OrderRepository {
     public HashMap<Integer, OrderPrimitives> orders = new HashMap<>();
 

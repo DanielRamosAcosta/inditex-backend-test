@@ -93,7 +93,6 @@ public class ProductListingTests {
 
         var products = given()
                 .port(port)
-                .log().all()
                 .get("/products")
                 .getBody()
                 .as(GetProductsResponseDto.class)

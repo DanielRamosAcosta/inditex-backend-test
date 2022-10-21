@@ -1,20 +1,19 @@
 package com.acidtango.inditex.backendtest.store.products.infrastructure.repository.memory;
 
-import com.acidtango.inditex.backendtest.store.orders.domain.Order;
 import com.acidtango.inditex.backendtest.store.products.domain.Product;
 import com.acidtango.inditex.backendtest.store.products.domain.ProductRepository;
 import com.acidtango.inditex.backendtest.store.products.domain.primitives.ProductPrimitives;
 import com.acidtango.inditex.backendtest.store.products.domain.primitives.ProductVariantPrimitives;
 import com.acidtango.inditex.backendtest.store.shared.domain.ProductId;
 import com.acidtango.inditex.backendtest.store.shared.domain.VariantId;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Optional;
 
-@Repository
+@Component
 public class ProductRepositoryMemory implements ProductRepository {
-    public HashMap<Integer, ProductPrimitives> products = new HashMap<>();
+    public final HashMap<Integer, ProductPrimitives> products = new HashMap<>();
 
     @Override
     public ProductId getNextId() {
