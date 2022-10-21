@@ -1,17 +1,20 @@
-FROM maven:3.8.6-openjdk-18-slim as build
+FROM eclipse-temurin:17 as build
 ENV MAVEN_OPTS="-XX:+TieredCompilation -XX:TieredStopAtLevel=1"
 WORKDIR /opt/app
 
+COPY mvnw .
+COPY .mvn .mvn
 COPY pom.xml .
-RUN mvn dependency:go-offline
+RUN ./mvnw dependency:go-offline
 
 COPY ./src ./src
-RUN mvn clean install -Dmaven.test.skip=true
+RUN ./mvnw clean install -Dmaven.test.skip=true
 
-FROM eclipse-temurin:18-alpine
+# This should be alpine, but there is no alpine version for Mac M1
+FROM openjdk:17-slim
 
 WORKDIR /opt/app
 
 COPY --from=build /opt/app/target/backend-test-0.0.1-SNAPSHOT.jar /opt/app
 
-CMD ["java", "-jar", "/opt/app/backend-test-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "--enable-preview", "/opt/app/backend-test-0.0.1-SNAPSHOT.jar"]

@@ -4,8 +4,14 @@ version: "3.7"
 services:
   api:
     build: .
-    platform: linux/amd64
     ports:
       - "8080:8080"
-  # database:
-  #   image: "redis:alpine"
+  database:
+    container_name: database
+    image: postgres:15-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: 'inditex'
+      POSTGRES_PASSWORD: 'password'
+      POSTGRES_DB: 'inditex'
