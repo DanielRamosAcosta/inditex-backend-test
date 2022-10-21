@@ -1,7 +1,7 @@
 package com.acidtango.inditex.backendtest;
 
 import com.acidtango.inditex.backendtest.shared.domain.EventBus;
-import com.acidtango.inditex.backendtest.store.shared.infrastructure.events.spring.EventBusSpring;
+import com.acidtango.inditex.backendtest.shared.infrastructure.events.spring.EventBusSpring;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

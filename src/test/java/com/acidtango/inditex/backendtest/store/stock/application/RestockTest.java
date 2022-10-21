@@ -1,9 +1,9 @@
 package com.acidtango.inditex.backendtest.store.stock.application;
 
+import com.acidtango.inditex.backendtest.shared.infrastructure.events.noop.EventBusNoop;
+import com.acidtango.inditex.backendtest.shared.infrastructure.events.tracker.EventBusTracker;
 import com.acidtango.inditex.backendtest.store.shared.domain.ProductId;
 import com.acidtango.inditex.backendtest.store.shared.domain.VariantId;
-import com.acidtango.inditex.backendtest.store.shared.infrastructure.events.noop.EventBusNoop;
-import com.acidtango.inditex.backendtest.store.shared.infrastructure.events.tracker.EventBusTracker;
 import com.acidtango.inditex.backendtest.store.stock.domain.StockAmount;
 import com.acidtango.inditex.backendtest.store.stock.domain.exceptions.ProductVariantStockNotFound;
 import com.acidtango.inditex.backendtest.store.stock.domain.services.ProductVariantStockFinder;

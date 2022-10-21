@@ -1,12 +1,12 @@
 package com.acidtango.inditex.backendtest.store.orders.application;
 
+import com.acidtango.inditex.backendtest.shared.infrastructure.events.noop.EventBusNoop;
+import com.acidtango.inditex.backendtest.shared.infrastructure.events.tracker.EventBusTracker;
 import com.acidtango.inditex.backendtest.store.orders.domain.OrderLine;
 import com.acidtango.inditex.backendtest.store.orders.domain.OrderLines;
 import com.acidtango.inditex.backendtest.store.orders.infrastructure.repository.OrderRepositoryMemory;
 import com.acidtango.inditex.backendtest.store.shared.domain.ProductId;
 import com.acidtango.inditex.backendtest.store.shared.domain.VariantId;
-import com.acidtango.inditex.backendtest.store.shared.infrastructure.events.noop.EventBusNoop;
-import com.acidtango.inditex.backendtest.store.shared.infrastructure.events.tracker.EventBusTracker;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.acidtango.inditex.backendtest.store.shared.infrastructure.events.logger;
+package com.acidtango.inditex.backendtest.shared.infrastructure.events.logger;
 
 import com.acidtango.inditex.backendtest.shared.domain.DomainEvent;
 import com.acidtango.inditex.backendtest.shared.domain.EventBus;

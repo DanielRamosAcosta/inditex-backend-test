@@ -1,6 +1,7 @@
 package com.acidtango.inditex.backendtest.store.stock.domain;
 
 import com.acidtango.inditex.backendtest.shared.domain.ValueObject;
+import com.acidtango.inditex.backendtest.store.stock.domain.exceptions.InvalidStackAmount;
 
 public class StockAmount extends ValueObject {
     private final Integer amount;
@@ -9,7 +10,14 @@ public class StockAmount extends ValueObject {
         return new StockAmount(0);
     }
 
+    private static void ensureAmountIsPositive(Integer amount) {
+        if (amount < 0) {
+            throw new InvalidStackAmount();
+        }
+    }
+
     public StockAmount(Integer amount) {
+        ensureAmountIsPositive(amount);
         this.amount = amount;
     }
 
