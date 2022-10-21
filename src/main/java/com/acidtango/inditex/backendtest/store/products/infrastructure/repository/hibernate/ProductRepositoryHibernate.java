@@ -5,11 +5,13 @@ import com.acidtango.inditex.backendtest.store.products.domain.ProductRepository
 import com.acidtango.inditex.backendtest.store.products.infrastructure.repository.hibernate.entities.ProductHibernateEntity;
 import com.acidtango.inditex.backendtest.store.shared.domain.ProductId;
 import com.acidtango.inditex.backendtest.store.shared.domain.VariantId;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Optional;
 
+@Repository
 public class ProductRepositoryHibernate implements ProductRepository {
 
     @PersistenceContext
