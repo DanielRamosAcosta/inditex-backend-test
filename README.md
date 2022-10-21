@@ -15,3 +15,4 @@
 * No se tienen en cuenta casos limite
 * Outside in TDD
 * E2E test from API point of view
+* es overkill, comentarlo
